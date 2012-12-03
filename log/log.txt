@@ -1,0 +1,5 @@
+2012-11-07 21:43:46 - Error: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+
+2012-11-07 21:43:51 - Error: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+
+2012-11-07 21:44:50 - Error: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES)

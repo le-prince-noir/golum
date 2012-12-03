@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+RewriteBase /
+
+
+
+Rewritecond %{REQUEST_URI} ^/projet03/ [NC]
+RewriteRule ^(.*)/$ /projet03/index.php?page=$1 [L]
+
+</IfModule>
