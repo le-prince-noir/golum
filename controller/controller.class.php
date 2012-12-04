@@ -17,3 +17,6 @@ if(isset($url[2])){
 }else{
 	$controller -> $action();
 }
+// $url = (isset($url[2])) ? $url[2] : null;
+
+// call_user_func(array($controller, $action));
