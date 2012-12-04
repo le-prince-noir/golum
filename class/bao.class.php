@@ -9,7 +9,7 @@ class BoiteOutils extends Bdd{
 		$Log = "deco";
 		$_SESSION['UserInfo'] = $array;
 
-		include_once 'view/compte.php';
+		include_once 'views/compte.php';
 	}
 
 	public function donneeBdd($id){

@@ -1,21 +1,14 @@
-<?php session_start();
-
-
-$define = "projet03/";
-
-define('WEBROOT',"http://localhost/".$define);
-define('URL_CSS', WEBROOT."public/css/");
-define('URL_IMG', WEBROOT."public/img/");
-define('URL_JS', WEBROOT."public/js/");
-
+<?php 
+	session_start();
+	$timestart=microtime(true);
 ?>
 <!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<title>La POO pour les nuls</title>
-	  	<link href="<?php echo URL_CSS; ?>reset.css" rel="stylesheet" >
-        <link href="<?php echo URL_CSS; ?>style.css" rel="stylesheet" >
+	  	<link href="<?php echo $_SERVER['HTTP_ROOT']; ?>/public/css/reset.css" rel="stylesheet" >
+        <link href="<?php echo $_SERVER['HTTP_ROOT']; ?>/public/css/style.css" rel="stylesheet" >
 	</head>
 
 	<body>
@@ -26,9 +19,17 @@ include_once 'controller/controller.class.php';
 
 include_once 'class/bao.class.php';
 
-
-
 ?>
 </div>
+<div id="footer">
+<?php 
+$timeend=microtime(true);
+$time=$timeend-$timestart;
+$page_load_time = number_format($time, 3);
+echo "Debut du script: ".date("H:i:s", $timestart);
+echo "<br>Fin du script: ".date("H:i:s", $timeend);
+echo "<br>Script execute en " . $page_load_time . " sec";
+ ?>
+	</div>
 </body>
 </html>

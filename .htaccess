@@ -1,11 +1,18 @@
+#<IfModule mod_rewrite.c>
+#
+#RewriteEngine On
+#RewriteBase /
+#
+## SetEnv HTTP_ROOT /503/
+#
+#Rewritecond %{REQUEST_URI} ^/503/ [NC]
+#RewriteRule ^(.*)/$ /503/index.php?page=$1 [L]
+#
+#</IfModule>
 <IfModule mod_rewrite.c>
-
-RewriteEngine On
-RewriteBase /
-
-
-
-Rewritecond %{REQUEST_URI} ^/projet03/ [NC]
-RewriteRule ^(.*)/$ /projet03/index.php?page=$1 [L]
-
+	SetEnv HTTP_ROOT /503/
+	RewriteEngine on
+	RewriteBase /503/
+	Rewritecond %{REQUEST_URI} ^/503/ [NC]
+	RewriteRule ^(.*)/$ /503/index.php?page=$1 [L]
 </IfModule>

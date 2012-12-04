@@ -12,4 +12,8 @@ $action = isset($url[1]) ? $url[1] : 'index';
 include_once 'class/' . $controller . '.class.php';
 $controller = new $controller();
 
-$controller -> $action();
+if(isset($url[2])){
+	$controller -> $action($url[2]);
+}else{
+	$controller -> $action();
+}

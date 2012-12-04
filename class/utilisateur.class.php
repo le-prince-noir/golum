@@ -20,6 +20,9 @@ public function verification($valeurs){
 			if($key == "password" && $value != ""){
 				$value = $this -> hashsha512($value);
 			}
+			if($key == "password1" && $value != ""){
+				$value = $this -> hashsha512($value);
+			}
 
 			$this -> tabForm[$key] =  $value;
 			// si une valeur est vide, on ajoute le msg d'erreur correspondant
@@ -31,13 +34,22 @@ public function verification($valeurs){
 			}
 
 		}
+		if (isset($this -> tabForm['password1']) && ($this -> tabForm['password'] != $this -> tabForm['password1'])) {
+			$this->erreurs["mdpDif"] = "veuillez saisir deux fois le même mot de passe";
+		}
+		if(isset($this -> tabForm['frmModification']) && ($this -> tabForm['password'] == "")){
+			unset(
+				$this -> tabForm['password'],
+				$this -> erreurs['password']);
+		}
 			unset(
 				$this -> tabForm['frmInscription'],
 				$this -> erreurs['frmInscription'],
 				$this -> tabForm['frmLogin'],
-				$this -> erreurs['frmLogin']
-
-
+				$this -> erreurs['frmLogin'],
+				$this -> tabForm['frmModification'],
+				$this -> erreurs['frmModification'],
+				$this -> tabForm['password1']
 				);
 
 		// on vérifie s'il y a des erreurs
@@ -82,7 +94,7 @@ public function login(){
 					$this -> session_Log($user);
 				}else{
 				// ici l'utilisateur n'est pas un membre, donc on inclu denouveau le formulaire
-					include_once 'view/user/frmLogin.php';
+					include_once 'views/user/frmLogin.php';
 					$this -> result = "Pas membres";
 				}
 			}else{
@@ -92,12 +104,12 @@ public function login(){
 			//var_dump($this -> result);
 			return $this -> result;
 		}else{
-				include_once 'view/user/frmLogin.php';
+				include_once 'views/user/frmLogin.php';
 				echo $tablo;
 		}
 		}else{
 			$_POST['login'] = $_POST['email'] = "";
-			include_once 'view/user/frmLogin.php';
+			include_once 'views/user/frmLogin.php';
 		}
 
 	}
@@ -119,7 +131,7 @@ public function inscription(){
 
 				// si la variable nb est supp à 0 alors c'est que le mail est déjà dans la bdd
 				if($nb > 0){
-					include_once 'view/user/frmInscription.php';
+					include_once 'views/user/frmInscription.php';
 					echo $this -> result = "Mail deja utiliser";
 				}else{
 				// ici on insérère le nouveau membre
@@ -154,49 +166,58 @@ public function inscription(){
 			//var_dump($this -> result);
 			return $this -> result;
 			}else{
-				include_once 'view/user/frmInscription.php';
+				include_once 'views/user/frmInscription.php';
 				echo $tablo;
 			}
 		}else{
 			$_POST['login'] = $_POST['password'] = $_POST['email'] = "";
-			include_once 'view/user/frmInscription.php';
+			include_once 'views/user/frmInscription.php';
 		}
 	}
 
 
-// public function modification(){
-// 	$tablo = $this -> verification($_POST);
-// 		$bd = parent::__construct();
-// 		if($bd){
+public function modification(){
+	if(isset($_POST['frmModification'])){
+		$tablo = $this -> verification($_POST);
+		if($this -> messageErreur == ""){
+			$bd = parent::__construct();
+			if($bd){
 
-// 		    $sql = "UPDATE utilisateur SET login =:login,";
+			    $sql = "UPDATE utilisateur SET ";
 
-// 		    if(isset($tablo['password'])){
-// 		    	 $sql .= " password = :password,";
-// 		    }
+			    if(isset($tablo['password'])){
+			    	 $sql .= " password = :password,";
+			    }
 
-// 	    	$sql .= " email = :email, role = :role WHERE id_UTILISATEUR = :id";
+		    	$sql .= " email = :email, role = :role WHERE id_UTILISATEUR = :id";
 
-// 	    	$modif = $bd -> prepare($sql);
+		    	$modif = $bd -> prepare($sql);
 
-// 			foreach ($tablo as $key => $value) {
-// 				$value = ($value == $tablo['id']) ? (int) $value : $value;
-// 				$modif -> bindParam($key, $tablo[$key]);
-// 			}
-// 			$modif -> execute();
-// 			$this -> donneeBdd($tablo['id']);
-// 			//$this -> result = "victoire Modification success";
-//         }else{
-// 			$this -> result = "Erreur de connexion";
-// 		}
-// 		return $this -> result;
-// 	}
+				foreach ($tablo as $key => $value) {
+					$value = ($value == $tablo['id']) ? (int) $value : $value;
+					$modif -> bindParam($key, $tablo[$key]);
+				}
+				$modif -> execute();
+				$this -> donneeBdd($tablo['id']);
+				//$this -> result = "victoire Modification success";
+	        }else{
+				$this -> result = "Erreur de connexion";
+			}
+			return $this -> result;
+		}else{
+			include_once 'views/user/frmModification.php';
+			echo $tablo;
+		}
+	}else{
+			include_once 'views/user/frmModification.php';
+	}
+}
 
 
 
 	public function deco(){
 		session_destroy();
-		header('Location: '.WEBROOT);
+		header('Location: '.$_SERVER['HTTP_ROOT']);
 	}
 
 

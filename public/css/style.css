@@ -138,3 +138,12 @@ body {
   text-align: center;
   border-top: 2px solid;
 }
+#footer{
+
+  width: 900px;
+  margin: 0 auto;
+  background: #0F6499;
+  height: 50px;
+  text-align: center;
+  padding: 10px;
+}
