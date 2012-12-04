@@ -2,36 +2,54 @@
 
 include_once 'bao.class.php';
 
+include_once 'view.class.php';
+
 class search extends BoiteOutils{
 
 
 
 
 	public function recherche(){
+		if(isset($_POST['frmSearch'])){
 
-		$tablo = array(
-			"z", "te", "q", "te", "te", "q"
-			);
+			$tabloMaj =array();
 
-		$tabloMaj =array();
 
-		for ($i=0; $i < count($tablo) ; $i++) {
-			if(!in_array($tablo[$i], $tabloMaj)){
-				$tabloMaj[$tablo[$i]] = 1;
-			}else{
-				$tabloMaj[$i] = $tabloMaj[$i] + 1;
+			$bd = parent::__construct();
+			$clef = $bd -> prepare("SELECT motClef FROM images");
+			$clef  -> execute();
+			$allClef = $clef  -> fetchAll(PDO::FETCH_ASSOC);
+			//var_dump($allClef);
+
+
+			for ($i=0; $i < count($allClef) ; $i++) {
+				if($allClef[$i]['motClef'] != ""){
+					$tablo = explode(',', $allClef[$i]['motClef']);
+					foreach ($tablo as $key => $value) {
+						$value = trim($value);
+						if($value != ""){
+							$nb = (isset($tabloMaj[$value])) ? $tabloMaj[$value] : 0;
+							$tabloMaj[$value] = $nb + 1;
+						}
+
+					}
+				}
 			}
-		};
-		
-var_dump($tabloMaj);
-		$bd = parent::__construct();
-$test ="aa";
-		$images = $bd -> prepare("SELECT Nom FROM images WHERE Nom LIKE '".$test."%'");
-		$images  -> execute();
-		$AllImages = $images -> fetchAll(PDO::FETCH_ASSOC);
-var_dump($AllImages);
 
+			//var_dump($tabloMaj);
+			$tabloMaj =array_keys($tabloMaj);
+
+			//var_dump($tabloMaj);
+			$images = $bd -> prepare("SELECT URL, Nom FROM images WHERE motClef LIKE '%".$_POST['search']."%'");
+			$images  -> execute();
+			$AllImages = $images -> fetchAll(PDO::FETCH_ASSOC);
+			//var_dump($AllImages);
+
+			view::search($AllImages);
+
+		}else{
+			include_once 'views/user/frmSearch.php';
+		}
 	}
-
 
 }

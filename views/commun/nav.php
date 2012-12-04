@@ -6,6 +6,7 @@
 <nav>
 	<ul>
 		<li><a href="<?php echo $_SERVER['HTTP_ROOT']; ?>">Accueil</a></li>
+		<li><a href="<?php echo $_SERVER['HTTP_ROOT']; ?>search/recherche/">Recherche</a></li>
 		<?php if(!isset($_SESSION["is_logged"]) || $_SESSION["is_logged"] != 1): ?>
 			<li><a href="<?php echo $_SERVER['HTTP_ROOT']; ?>utilisateur/inscription/">Inscription</a></li>
 		<?php endif; ?>
