@@ -1,4 +1,4 @@
-<?php 
+<?php
 	session_start();
 	$timestart=microtime(true);
 ?>
@@ -10,7 +10,9 @@
 	  	<link href="<?php echo $_SERVER['HTTP_ROOT']; ?>/public/css/reset.css" rel="stylesheet" >
         <link href="<?php echo $_SERVER['HTTP_ROOT']; ?>/public/css/style.css" rel="stylesheet" >
 	</head>
-
+<script>
+	console.log('variable');
+</script>
 	<body>
 		<div id="wrapper">
 
@@ -22,7 +24,7 @@ include_once 'class/bao.class.php';
 ?>
 </div>
 <div id="footer">
-<?php 
+<?php
 $timeend=microtime(true);
 $time=$timeend-$timestart;
 $page_load_time = number_format($time, 3);
